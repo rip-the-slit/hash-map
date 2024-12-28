@@ -6,7 +6,7 @@ export default class HashMap {
   }
   createBuckets(capacity = this.capacity) {
     const arr = [];
-    while (capacity--) arr.push([]);
+    while (capacity--) arr.push(null);
     return arr;
   }
   hash(key) {
@@ -18,5 +18,12 @@ export default class HashMap {
     }
 
     return hashCode;
+  }
+  set(key, value) {
+    const bucket = this.hash(key)
+    this.buckets[bucket] = {key, value}
+  }
+  get(key) {
+    return this.buckets[this.hash(key)]
   }
 }
