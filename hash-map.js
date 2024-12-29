@@ -6,8 +6,22 @@ export default class HashMap {
     this.capacity = capacity;
     this.buckets = this.createBuckets();
   }
+  checkCapacity() {
+    const entries = this.entries();
+    if (entries.length + 1 > this.loadFactor * this.capacity) {
+      this.capacity *= 2;
+      this.buckets = this.createBuckets();
+      entries.forEach((entry) => this.set(entry[0], entry[1]));
+    }
+  }
   createBuckets(capacity = this.capacity) {
-    const arr = [];
+    const arr = new Proxy([], {
+      get(target, prop, receiver) {
+        if (prop < 0 || prop >= target.length) {
+          throw new Error("Trying to access index out of bounds");
+        } else return target[prop];
+      },
+    });
     while (capacity--) arr.push(new LinkedList());
     return arr;
   }
@@ -22,6 +36,7 @@ export default class HashMap {
     return hashCode;
   }
   set(key, value) {
+    this.checkCapacity();
     const bucket = this.buckets[this.hash(key)];
     const index = bucket.find(key);
     if (index > -1) bucket.at(index).value.value = value;
