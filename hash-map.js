@@ -44,4 +44,9 @@ export default class HashMap {
     }
     return false
   }
+  length() {
+    let count = 0
+    this.buckets.forEach((bucket) => count += bucket.size())
+    return count
+  }
 }
