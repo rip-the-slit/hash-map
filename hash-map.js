@@ -1,3 +1,5 @@
+import LinkedList from "./linkedlist-class.js";
+
 export default class HashMap {
   constructor(loadFactor = 0.8, capacity = 16) {
     this.loadFactor = loadFactor;
@@ -6,7 +8,7 @@ export default class HashMap {
   }
   createBuckets(capacity = this.capacity) {
     const arr = [];
-    while (capacity--) arr.push(null);
+    while (capacity--) arr.push(new LinkedList());
     return arr;
   }
   hash(key) {
@@ -20,10 +22,11 @@ export default class HashMap {
     return hashCode;
   }
   set(key, value) {
-    const bucket = this.hash(key)
-    this.buckets[bucket] = {key, value}
+    const hash = this.hash(key);
+    this.buckets[hash].append({ key, value });
   }
   get(key) {
-    return this.buckets[this.hash(key)]
+    const bucket = this.buckets[this.hash(key)];
+    return bucket.find(key)
   }
 }
