@@ -54,4 +54,21 @@ export default class HashMap {
       while (bucket.head) bucket.pop();
     });
   }
+  keys() {
+    return this.entries().reduce((arr, entry) => arr.concat(entry[0]), []);
+  }
+  values() {
+    return this.entries().reduce((arr, entry) => arr.concat(entry[1]), []);
+  }
+  entries() {
+    const arr = [];
+    this.buckets.forEach((bucket) => {
+      let node = bucket.head;
+      while (node) {
+        arr.push([node.value.key, node.value.value]);
+        node = node.next;
+      }
+    });
+    return arr;
+  }
 }
