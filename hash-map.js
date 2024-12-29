@@ -39,14 +39,19 @@ export default class HashMap {
     const bucket = this.buckets[this.hash(key)];
     const index = bucket.find(key);
     if (index > -1) {
-      bucket.removeAt(index)
-      return true
+      bucket.removeAt(index);
+      return true;
     }
-    return false
+    return false;
   }
   length() {
-    let count = 0
-    this.buckets.forEach((bucket) => count += bucket.size())
-    return count
+    let count = 0;
+    this.buckets.forEach((bucket) => (count += bucket.size()));
+    return count;
+  }
+  clear() {
+    this.buckets.forEach((bucket) => {
+      while (bucket.head) bucket.pop();
+    });
   }
 }
