@@ -29,6 +29,10 @@ export default class HashMap {
   }
   get(key) {
     const bucket = this.buckets[this.hash(key)];
-    return bucket.find(key).value.value;
+    const found = bucket.find(key);
+    return found ? found.value.value : found;
+  }
+  has(key) {
+    return this.get(key) ? true : false;
   }
 }
