@@ -22,11 +22,13 @@ export default class HashMap {
     return hashCode;
   }
   set(key, value) {
-    const hash = this.hash(key);
-    this.buckets[hash].append({ key, value });
+    const bucket = this.buckets[this.hash(key)];
+    const found = bucket.find(key);
+    if (found) found.value.value = value;
+    else bucket.append({ key, value });
   }
   get(key) {
     const bucket = this.buckets[this.hash(key)];
-    return bucket.find(key)
+    return bucket.find(key).value.value;
   }
 }
