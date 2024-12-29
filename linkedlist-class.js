@@ -44,12 +44,14 @@ export default class LinkedList {
     return false;
   }
   find(key) {
+    let index = -1;
     let node = this.#head;
     while (node) {
-      if (node.value.key == key) return node;
+      index++;
+      if (node.value.key == key) return index;
       node = node.next;
     }
-    return null;
+    return -1;
   }
   toString() {
     let string = "";
@@ -68,7 +70,10 @@ export default class LinkedList {
     if (prevNode) prevNode.next = new Node(value, prevNext);
   }
   removeAt(index) {
-    if (index == 0) this.pop();
+    if (index == 0) {
+      this.pop()
+      return
+    }
     const prevNode = this.at(index - 1);
     const nextNext = prevNode.next.next;
     if (prevNode) prevNode.next = nextNext ? nextNext : null;

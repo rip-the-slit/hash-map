@@ -23,16 +23,25 @@ export default class HashMap {
   }
   set(key, value) {
     const bucket = this.buckets[this.hash(key)];
-    const found = bucket.find(key);
-    if (found) found.value.value = value;
+    const index = bucket.find(key);
+    if (index > -1) bucket.at(index).value.value = value;
     else bucket.append({ key, value });
   }
   get(key) {
     const bucket = this.buckets[this.hash(key)];
-    const found = bucket.find(key);
-    return found ? found.value.value : found;
+    const index = bucket.find(key);
+    return index > -1 ? bucket.at(index).value.value : index;
   }
   has(key) {
-    return this.get(key) ? true : false;
+    return this.get(key) > -1 ? true : false;
+  }
+  remove(key) {
+    const bucket = this.buckets[this.hash(key)];
+    const index = bucket.find(key);
+    if (index > -1) {
+      bucket.removeAt(index)
+      return true
+    }
+    return false
   }
 }
